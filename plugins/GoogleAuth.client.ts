@@ -1,32 +1,52 @@
 import { useAuthStore } from "~/store/useAuthStore";
 
-declare const window: { google: { accounts: google.accounts } } & Window;
+declare global {
+    interface Window {
+        google: { accounts: google.accounts }
+    }
+}
 
 export default defineNuxtPlugin((nuxtApp) => {
     const store = useAuthStore();
     if (store.token) {
-        console.log("GoogleOneTapPlugin we have token, no auth call!");
+        console.log("GoogleAuthPlugin we have token, no auth call!");
         return;
     }
     if (import.meta.client) {
         const config = useRuntimeConfig();
-        console.log("GoogleOneTapPlugin Importing gsi");
+        console.log("GoogleAuthPlugin Importing gsi");
         const script = document.createElement('script');
         script.src = 'https://accounts.google.com/gsi/client';
         script.onload = () => {
-            console.log('GoogleOneTapPlugin gsi-loaded, initialize');
+            console.log('GoogleAuthPlugin gsi-loaded, initialize');
             window.google.accounts.id.initialize({
                 client_id: config.public.gaClientId,
-                callback: handleCredentialResponse,
+                callback: handleCredentialResponse
             });
 
-            window.google.accounts.id.prompt(); // Zobrazí One-Tap dialog.
+            window.google.accounts.id.prompt((notification) => {
+                console.log('GoogleAuthPlugin notification', notification);
+                if (notification.isNotDisplayed()) {
+                    store.setError('not-displayed');
+                    console.log('not-displayed!');
+                }
+                if (notification.isSkippedMoment()) {
+                    const reason = notification.getSkippedReason();
+                    store.setError(`skipped_${reason}`);
+                    console.log('skipped!', reason);
+                }
+                if (notification.isDismissedMoment()) {
+                    store.setError('dismissed');
+                    console.log('dismissed!');
+                }
+
+            }); // Zobrazí One-Tap dialog.
         };
         document.head.appendChild(script);
     }
 
     function handleCredentialResponse(response: any) {
-        console.log('GoogleOneTapPlugin retrieved credential');
+        console.log('GoogleAuthPlugin retrieved credential');
         store.setToken(response.credential);
     }
 });

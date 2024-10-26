@@ -1,25 +1,42 @@
-# Test ONETAP
+# OneTapLogin
 
-One Tap signin for site can be disabled/enabled in chrome://settings/content/federatedIdentityApi
+Google OneTap/Button Sign-in example. Made with Nuxt 3, Pinia and Nuxt UI. Received user information are just displayed and not used in any other way.
 
-## Development Server
+## Development environment
 
-Start the development server on `http://localhost:3000`:
-
-## Making test domain
-
-If you using Ubuntu in Windows, you must use mkcert in windows!
+Google Sign-in doesn't work on localhost. Your app must be running on some real domain. You can setup it by mkcert tool. Alternatively you can use ngrok, serveo or any other tool.
 
 ```
-mkcert -key-file mistergroup_org_key.pem -cert-file mistergroup_org_cert.pem mistergroup.org *.mistergroup.org
+mkcert -key-file local.example.org.key.pem -cert-file local.example.org.cert.pem local.example.org
 ```
 
-### Ubuntu
+## Google API access
 
-Follow - https://github.com/FiloSottile/mkcert
+Open Google Cloud Console, create project, create Credentials for web app and define OAuth content screen. Store ClientID and Secret to env variables.
 
-ngrok http --url=renewed-turtle-assuring.ngrok-free.app 3000
+## Persistent store
 
-ssh -R mgtest:80:localhost:3000 serveo.net
-If you need devtools on serveo.net, you must set `vite.server.hmr.protocol: 'wss'` in `nuxt.config.ts`.
-Alternatively use https://telebit.cloud/
+This example is using Pinia with pinia-plugin-persistedstate plugin to store signed user information in cookies. You can find it in `useAuthStore.ts`.
+
+## Composable for fast user access
+
+useAuth composable makes user properties easy to access. See `useAuth.ts`.
+
+## Google Sign-in Library
+
+Create Nuxt client plugin to load and activate Google sign-in library. See `GoogleAuth.client.ts`.
+
+## Token validation API
+
+Create access point for checking user token and receiving User information. See `server/api/auth/google.ts`.
+
+## Required env variables
+
+```
+# Create Google Cloud API Credentials for web application and OAuth2
+NUXT_PUBLIC_GA_CLIENT_ID=...
+NUXT_GA_SECRET=...
+
+# local domain with mkcert certificates for testing, for example local.example.org
+NUXT_DEVHOST=...
+```

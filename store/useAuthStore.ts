@@ -28,11 +28,15 @@ export const useAuthStore = defineStore(
                 error.value = 'Error fetching user details';
             }
         }
-        //computed - getters
-        // functions - setters
-        return { user, error, token, setToken }
+        const setError = (val: string) => {
+            console.log('setting error to ', val)
+            error.value = val;
+        }
+        return { user, error, token, setToken, setError }
     },
     {
-        persist: true,
+        persist: {
+            pick: ['token', 'user'],
+        }
     },
 )

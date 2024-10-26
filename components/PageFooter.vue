@@ -1,7 +1,7 @@
 <template>
-    <div class="bg-white/30 dark:bg-black/20 p-2">
+    <div class="bg-white/30 dark:bg-black/20 py-8 mt-16">
         <div
-            class="max-w-[1280px] mx-auto text-center text-gray-600 dark:text-gray-300 min-h-36 flex items-center justify-between">
+            class="max-w-[1280px] mx-auto text-center text-gray-600 dark:text-gray-300 min-h-48 flex items-start justify-between">
             <div>© 2024 Miroslav Topolář</div>
             <div>
                 <ClientOnly>

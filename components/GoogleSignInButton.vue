@@ -1,10 +1,13 @@
 <template>
     <div class="overflow-hidden rounded">
-        <div ref="googleSignInButton"></div>
+        <div ref="googleSignInButton">
+            <UButton variant="ghost" color="black" :loading="true"></UButton>
+        </div>
     </div>
 </template>
 
 <script setup>
+const loading = ref(true);
 const googleSignInButton = ref(null);
 
 onMounted(() => {
@@ -20,6 +23,9 @@ onMounted(() => {
         );
     } else {
         console.error('window or window.google not defined!');
+        loading.value = false;
+        const toast = useToast();
+        toast.add({ title: 'Error occured', description: 'Google Sign-in library not loaded properly!', color: 'red' })
     }
 });
 </script>
