@@ -14,11 +14,12 @@ export default defineNuxtPlugin((nuxtApp) => {
     }
     if (import.meta.client) {
         const config = useRuntimeConfig();
-        console.log("GoogleAuthPlugin Importing gsi");
+        console.log("GoogleAuthPlugin Loading gsi client");
         const script = document.createElement('script');
         script.src = 'https://accounts.google.com/gsi/client';
         script.onload = () => {
             console.log('GoogleAuthPlugin gsi-loaded, initialize');
+            store.setGsiLoaded(true);
             window.google.accounts.id.initialize({
                 client_id: config.public.gaClientId,
                 callback: handleCredentialResponse
@@ -35,13 +36,16 @@ export default defineNuxtPlugin((nuxtApp) => {
                     store.setError(`skipped_${reason}`);
                     console.log('skipped!', reason);
                 }
-                if (notification.isDismissedMoment()) {
-                    store.setError('dismissed');
-                    console.log('dismissed!');
-                }
+                // if (notification.isDismissedMoment()) {
+                //     store.setError('dismissed');
+                //     console.log('dismissed!');
+                // }
 
             }); // Zobrazí One-Tap dialog.
         };
+        script.onerror = () => {
+            store.setGsiLoaded(false);
+        }
         document.head.appendChild(script);
     }
 

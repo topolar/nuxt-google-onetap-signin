@@ -2,11 +2,12 @@ import { useAuthStore } from "~/store/useAuthStore";
 
 export const useAuth = () => {
     const store = useAuthStore();
-    const { token, error, user } = storeToRefs(store);
+    const { token, error, user, gsiLoaded } = storeToRefs(store);
     return {
         user,
         token,
         error,
+        gsiLoaded,
         logout: async () => {
             await store.setToken(null);
             if (!window || !window.google) {

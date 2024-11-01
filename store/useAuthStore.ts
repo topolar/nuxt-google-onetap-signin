@@ -7,6 +7,7 @@ export const useAuthStore = defineStore(
         const token = ref<string>(); // state
         const user = ref<User>();
         const error = ref<string>()
+        const gsiLoaded = ref<boolean | null>(null);
         const setToken = async (newToken: string | null) => {
             user.value = undefined;
             error.value = undefined;
@@ -32,7 +33,13 @@ export const useAuthStore = defineStore(
             console.log('setting error to ', val)
             error.value = val;
         }
-        return { user, error, token, setToken, setError }
+
+        const setGsiLoaded = (val: boolean) => {
+            console.log('setGsiLoaded', val);
+            gsiLoaded.value = val;
+        }
+
+        return { user, error, token, gsiLoaded, setToken, setError, setGsiLoaded }
     },
     {
         persist: {

@@ -1,6 +1,8 @@
 # OneTapLogin
 
-Google OneTap/Button Sign-in example. Made with Nuxt 3, Pinia and Nuxt UI. Received user information are just displayed and not used in any other way.
+Google OneTap/Button Sign-in example build with Nuxt 3, Pinia and Nuxt UI. Received user information are just displayed and not used in any other way.
+
+Deployed version is available on [Vercel](https://nuxt-google-onetap-signin.vercel.app)
 
 ## Development environment
 

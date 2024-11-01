@@ -18,6 +18,9 @@
                 <template v-else>
                     <GoogleSignInButton />
                 </template>
+                <ULink to="https://github.com/topolar/nuxt-google-onetap-signin" class="flex items-center">
+                    <UIcon name="i-grommet-icons:github" class="w-6 h-6" />
+                </ULink>
             </div>
         </div>
     </div>

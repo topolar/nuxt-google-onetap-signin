@@ -4,7 +4,7 @@
         <h1 class="text-3xl font-bold tracking-tighter">OneTapLogin</h1>
     </div>
     <div class="text-center max-w-[600px] mx-auto">
-        Google OneTap/Button Sign-in example. Made with <strong>Nuxt 3</strong>, <strong>Pinia</strong> and <strong>Nuxt
+        Google OneTap/Button Sign-in example build with <strong>Nuxt 3</strong>, <strong>Pinia</strong> and <strong>Nuxt
             UI</strong>.
         Received user information are just displayed and <strong>not used</strong> in any other way.
     </div>
